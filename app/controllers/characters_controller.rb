@@ -1,4 +1,14 @@
 class CharactersController < ApplicationController
+  before_action :require_login
+
+  private
+
+  def require_login
+    unless logged_in?
+      redirect_to login_path, alert: "You must be logged in to access this page."
+    end
+  end
+  
   before_action :set_character, only: %i[ show edit update destroy ]
 
   # GET /characters or /characters.json
