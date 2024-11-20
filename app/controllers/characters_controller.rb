@@ -33,14 +33,17 @@ class CharactersController < ApplicationController
   # POST /characters or /characters.json
   def create
     #@character = Character.new(character_params)
+    @character = current_user.characters.new(character_params)
 
     respond_to do |format|
       if @character.save
-        format.html { redirect_to @character, notice: "Character was successfully created." }
-        format.json { render :show, status: :created, location: @character }
+        # format.html { redirect_to @character, notice: "Character was successfully created." }
+        # format.json { render :show, status: :created, location: @character }
+        redirect_to characters_path, notice: 'Character created successfully!'
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @character.errors, status: :unprocessable_entity }
+        # format.html { render :new, status: :unprocessable_entity }
+        # format.json { render json: @character.errors, status: :unprocessable_entity }
+        render :new, alert: 'Error creating character.'
       end
     end
   end
