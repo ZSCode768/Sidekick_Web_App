@@ -8,12 +8,13 @@ class CharactersController < ApplicationController
       redirect_to login_path, alert: "You must be logged in to access this page."
     end
   end
-  
+
   before_action :set_character, only: %i[ show edit update destroy ]
 
   # GET /characters or /characters.json
   def index
-    @characters = Character.all
+    #@characters = Character.all
+    @characters = current_user.characters
   end
 
   # GET /characters/1 or /characters/1.json
@@ -31,7 +32,7 @@ class CharactersController < ApplicationController
 
   # POST /characters or /characters.json
   def create
-    @character = Character.new(character_params)
+    #@character = Character.new(character_params)
 
     respond_to do |format|
       if @character.save
