@@ -1,7 +1,7 @@
 FactoryBot.define do
-    factory(:student) do
+    factory(:user) do
       username { Faker::Internet.username }
-      email { "student1@msudenver.edu" }
+      email { Faker::Internet.email }
       password { "password" }
       password_confirmation { "password" }
     end
