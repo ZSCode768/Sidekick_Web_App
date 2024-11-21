@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Name</title>
+    <title>Sidekick App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,14 +11,26 @@
   </head>
 
   <body>
-    <nav>
-      <% if logged_in? %>
-        <p>Welcome, <%= current_user.username %>!</p>
-        <%= link_to 'Logout', logout_path, method: :delete %>
-      <% else %>
-        <%= link_to 'Login', login_path %>
-      <% end %>
-    </nav>
-    <%= yield %>
+    <header>
+      <h1>Welcome to the Sidekick App</h1>
+      <nav>
+        <%= link_to "Home", root_path %> |
+        <%= link_to "Your Characters", characters_path %> |
+        <% if logged_in? %>
+          <p>Welcome, <%= current_user.username %>!</p>
+          <%= link_to 'Logout', logout_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Login', login_path %>
+        <% end %>
+      </nav>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Sidekick App</p>
+    </footer>
   </body>
 </html>

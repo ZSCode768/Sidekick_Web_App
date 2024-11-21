@@ -1,20 +1,15 @@
 class CharactersController < ApplicationController
   before_action :require_login
-
-  private
-
-  def require_login
-    unless logged_in?
-      redirect_to login_path, alert: "You must be logged in to access this page."
-    end
-  end
-
-  before_action :set_character, only: %i[ show edit update destroy ]
+  before_action :set_character, only: %i[show edit update destroy]
 
   # GET /characters or /characters.json
   def index
     #@characters = Character.all
-    @characters = current_user.characters
+    if current_user
+      @characters = current_user.characters
+    else
+      @characters = []
+    end
   end
 
   # GET /characters/1 or /characters/1.json
@@ -37,13 +32,13 @@ class CharactersController < ApplicationController
 
     respond_to do |format|
       if @character.save
-        # format.html { redirect_to @character, notice: "Character was successfully created." }
-        # format.json { render :show, status: :created, location: @character }
-        redirect_to characters_path, notice: 'Character created successfully!'
+        format.html { redirect_to @character, notice: "Character was successfully created." }
+        format.json { render :show, status: :created, location: @character }
+        # redirect_to characters_path, notice: 'Character created successfully!'
       else
-        # format.html { render :new, status: :unprocessable_entity }
-        # format.json { render json: @character.errors, status: :unprocessable_entity }
-        render :new, alert: 'Error creating character.'
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @character.errors, status: :unprocessable_entity }
+        # render :new, alert: 'Error creating character.'
       end
     end
   end
@@ -74,11 +69,19 @@ class CharactersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_character
-      @character = Character.find(params[:id])
+      # @character = Character.find(params[:id])
+      @character = current_user.characters.find_by(id: params[:id])
+      redirect_to characters_path, alert: "Character not found or unauthorized access." unless @character
+    end
+
+    def require_login
+      unless logged_in?
+        redirect_to login_path, alert: "You must be logged in to access this page."
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def character_params
-      params.require(:character).permit(:name, :level, :abilities, :user_id)
+      params.require(:character).permit(:name, :level, :abilities)
     end
 end
