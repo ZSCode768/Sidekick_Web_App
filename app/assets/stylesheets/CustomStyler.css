@@ -1,0 +1,39 @@
+/* Global Dark Mode Styles */
+body {
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* Light text */
+  }
+  
+  .navbar {
+    background-color: #333333; /* Dark navbar */
+    color: #333333;
+  }
+  
+  .navbar a {
+    color: #80bfff; /* Light blue links */
+  }
+  
+  a {
+    color: #80bfff; /* Light blue links */
+  }
+  
+  a:hover {
+    color: #ffffff; /* White on hover */
+  }
+  
+  .container {
+    background-color: #1e1e1e; /* Slightly lighter background for containers */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .btn {
+    background-color: #444444; /* Dark button background */
+    color: #ffffff; /* Light text */
+    border: 1px solid #555555;
+  }
+  
+  .btn:hover {
+    background-color: #555555; /* Slightly lighter on hover */
+  }
+  

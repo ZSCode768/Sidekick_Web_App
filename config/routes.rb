@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'home/index'
   resources :characters
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -8,11 +9,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Session routes
-  get 'login', to: 'sessions#new'
+  get 'login', to: 'sessions#new', as: :login
   post 'login', to: 'sessions#create'
-  delete 'logout', to: 'sessions#destroy'
+  get 'logout', to: 'sessions#destroy', as: :logout
 
-  root 'users#index'
+  root 'home#index'
 
   # Defines the root path route ("/")
   # root "posts#index"

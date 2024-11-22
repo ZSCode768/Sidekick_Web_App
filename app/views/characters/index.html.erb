@@ -9,8 +9,9 @@
       <p>
         <!-- Display character attributes here -->
         <strong>Name:</strong> <%= character.name %> <br>
-        <strong>Class:</strong> <%= character.character_class %> <br>
+        <!-- strong>Class:</strong --> <!-- character.character_class --> <br>
         <strong>Level:</strong> <%= character.level %> <br>
+        <strong>Abilities:</strong> <%= character.abilities %> <br>
 
         <!-- Link to show character details -->
         <%= link_to "Show this character", character_path(character) %>
