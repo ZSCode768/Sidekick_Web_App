@@ -57,7 +57,7 @@
             <!-- Conditional rendering for logged in or not logged in -->
             <% if logged_in? %>
               <div id="logged-in">
-                <%= link_to "Account Details", user_path(current_user.id), class: "dropdown-item", aria: { label: "View account details" } %>
+                <%= link_to "Account Details", edit_user_path(current_user.id), class: "dropdown-item", aria: { label: "View account details" } %>
                 <%= link_to "My Characters", characters_path(current_user.id), class: "dropdown-item", aria: { label: "View your characters" } %>
                 <%= link_to "Log Out", logout_path, method: :delete, class: "dropdown-item", aria: { label: "Log out of your account" } %>
               </div>

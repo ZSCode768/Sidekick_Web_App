@@ -17,6 +17,8 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user = User.find(params[:id])
+    flash.now[:notice] = "Changes discarded!" if params[:discard] == "true"
   end
 
   # POST /users or /users.json
@@ -25,7 +27,9 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
+        #automatically login
+        session[:user_id] = @user.id
+        format.html { redirect_to root_path, notice: "Account created successfully and you are now logged in!" }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,9 +42,10 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
+        format.html { redirect_to edit_user_path, notice: "Changes saved successfully." }
         format.json { render :show, status: :ok, location: @user }
       else
+        flash.now[:alert] = "Failed to save changes"
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -49,10 +54,11 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
+    @user = User.find(params[:id])
     @user.destroy!
 
     respond_to do |format|
-      format.html { redirect_to users_path, status: :see_other, notice: "User was successfully destroyed." }
+      format.html { redirect_to root_path, status: :see_other, notice: "Your account has been deleted successfully." }
       format.json { head :no_content }
     end
   end
