@@ -45,7 +45,6 @@ class UsersController < ApplicationController
         format.html { redirect_to edit_user_path, notice: "Changes saved successfully." }
         format.json { render :show, status: :ok, location: @user }
       else
-        flash.now[:alert] = "Failed to save changes"
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end

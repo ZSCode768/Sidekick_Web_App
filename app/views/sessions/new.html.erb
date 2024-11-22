@@ -1,18 +1,42 @@
-<h1>Login<h1>
-<%= form_with url: login_path, method: :post, local: true do |f| %>
-    <div>
-        <%= f.label :email %>
-        <%= f.text_field :email, required: true %>
-    </div>
-    <div>
-        <%= f.label :password %>
-        <%= f.password_field :password, required: true %>
-    </div>
-    <div>
-        <%= f.submit 'Login' %>
-    </div>
-    <div>
-        <%= link_to 'Sign up', new_user_path %>
-    </div>
+<div class="container my-5">
+  <div class ="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card bg-dark text-light">
+        <div class="card-header text-center">
+          <h2 class="mb-0">Login</h2>
+        </div>
+        <div class="card-body">
+        <!-- error messages -->
+        <% if flash[:alert] %>
+          <div class="alert alert-danger">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
 
-<% end %>
+          <!-- Login form -->  
+          <%= form_with model: @user, url:login_path, local: true do |f| %>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <%= f.label :email, "Email", class: "form-label" %>
+              <%= f.email_field :email, class: "form-control", placeholder: "Enter your email address" %>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <%= f.label :password, "Password", class: "form-label" %>
+              <%= f.password_field :password, class: "form-control", placeholder: "Enter your password" %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "Login", class: "btn btn-primary btn-lg" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <p>Don't have an account? <%= link_to "Sign Up", new_user_path, class: "text-primary" %></p>
+      </div>
+    </div>
+  </div>
+</div>
