@@ -58,6 +58,7 @@ class CharactersController < ApplicationController
 
   # DELETE /characters/1 or /characters/1.json
   def destroy
+    @character = Character.find(params[:id])
     @character.destroy!
 
     respond_to do |format|
@@ -82,6 +83,9 @@ class CharactersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def character_params
-      params.require(:character).permit(:name, :level, :abilities)
+      params.require(:character).permit(:name, :level, 
+      :abilities, :description,
+      :strength, :dexterity, :constitution,
+      :intelligence, :wisdom, :charisma)
     end
 end

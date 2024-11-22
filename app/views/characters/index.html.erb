@@ -1,50 +1,95 @@
-<div class="container my-5">
+<div class="container my-4">
   <h1 class="text-light">Your Characters</h1>
-  <% if @characters.present? && @characters.any? %>
-    <div class="list-group">
-      <% @characters.each do |character| %>
-        <div class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
-          <!-- Character Name -->
-          <div>
-            <strong><%= character.name %></strong>
-          </div>
 
-          <!-- dropdown to show details -->
-          <div class="dropdown">
-            <button
-              class="btn btn-secondary btn-sm dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton<%= character.id %>"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              Details
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton<%= character.id %>">
-              <li><strong>Level:</strong> <%= character.level %></li>
-              <li class="dropdown-divider"></li>
-              <li><strong>Description:</strong></li>
-              <li><%= character.description %></li>
-            </ul>
-          </div>
-
-          <!-- Edit and Delete Buttons -->
-          <div>
-            <%= link_to edit_character_path(character), class: "btn btn-primary btn-sm me-2", aria: { label: "Edit #{character.name}" } do %>
-              <i class="bi bi-pencil"></i> Edit
+  <% @characters.each do |character| %>
+    <div class="card bg-dark text-light my-3" style="border: 2px solid #6c757d;">
+      <!-- Toggle Button for Dropdown -->
+      <div class="position-relative">
+        <button
+          class="card-header w-100 text-start border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#character-details-<%= character.id %>"
+          aria-expanded="false"
+          aria-controls="character-details-<%= character.id %>"
+          style="background: none; color: inherit;"
+        >
+          <span><%= character.name %></span>
+        </button>
+        
+        <!--View, Edit, and Delete Buttons -->
+        <div class="position-absolute top-50 end-0 translate-middle-y me-3">
+          <div class="btn-group" role="group">
+            <%= button_to character_path(character), 
+              method: :get, 
+              class: "btn btn-outline-primary btn-sm", 
+              aria: { label: "View Character" } do %>
+              🔍
             <% end %>
-            <%= button_to character_path(character), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to delete #{character.name}?" }, aria: { label: "Delete #{character.name}" } do %>
-              <i class="bi bi-trash"></i> Delete
+            <%= button_to edit_character_path(character), 
+              method: :get, 
+              data: { turbo_confirm: "Are you sure you want to edit this character?" },
+              class: "btn btn-outline-primary btn-sm", 
+              aria: { label: "Edit Character" } do %>
+              ✏️
             <% end %>
+            
+            <%= button_to character_path(character), 
+              method: :delete,
+              data: { turbo_confirm: "Are you sure you want to delete this character?" }, 
+              class: "btn btn-outline-danger btn-sm",
+              aria: { label: "Delete Character" } do %>
+              🗑️
+            <% end %>           
           </div>
         </div>
-      <% end %>
+      </div>
+      
+
+      <!-- Collapsible Section -->
+      <div id="character-details-<%= character.id %>" class="collapse" style="border-top: 1px solid #6c757d;">
+        <div class="card-body">
+        
+        <h5>Stats</h5>
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>STR</th>
+              <th>DEX</th>
+              <th>CON</th>
+              <th>INT</th>
+              <th>WIS</th>
+              <th>CHA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= character.level %></td>
+              <td><%= calculate_modifier(character.strength) %></td>
+              <td><%= calculate_modifier(character.dexterity) %></td>
+              <td><%= calculate_modifier(character.constitution) %></td>
+              <td><%= calculate_modifier(character.intelligence) %></td>
+              <td><%= calculate_modifier(character.wisdom) %></td>
+              <td><%= calculate_modifier(character.charisma) %></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h5>Description</h5>
+        <p><%= simple_format(character.description.presence) || "No description provided." %></p>
+          
+            
+          
+        </div>
+      </div>
     </div>
-  <% else %>
-    <p class="text-light">No characters found. <%= link_to "Create a new character", new_character_path, class: "text-primary" %></p>
   <% end %>
 
   <!-- New Character Button -->
-  <div class="d-grid mt-4"
-    <%= link_to "New Character", new_character_path, class: "btn btn-success btn-lg" %>
+  <div class="d-flex justify-content-center">
+    <%= link_to new_character_path, class: "btn btn-success btn-lg", aria: { label: "Create a New Character" } do %>
+      ➕ New Character
+    <% end %>
   </div>
 </div>

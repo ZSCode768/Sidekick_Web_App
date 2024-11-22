@@ -1,10 +1,81 @@
-<p style="color: green"><%= notice %></p>
+<div class="container my-4">
+  <div class="card bg-dark text-light my-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1><%= @character.name %></h1>
+      <div>
+      <!-- Edit and Delete Links -->
+      <div class="btn-group" role="group">
+        <%= button_to edit_character_path(@character), 
+          method: :get,
+          data: { turbo_confirm: "Are you sure you want to edit this character?" },
+          class: "btn btn-outline-primary btn-sm", 
+          aria: { label: "Edit Character" } do %>
+          ✏️
+        <% end %>
+        <%= turbo_frame_tag "characters" do %>
+          <%= link_to "🗑️", character_path(@character), 
+                      data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this character?" }, 
+                      class: "btn btn-outline-danger btn-sm" %>
+        <% end %>            
+      </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <!-- Stats Table -->
+      <h5>Level</h5>
+      <h4><%= @character.level %></h4>
+      <br>
 
-<%= render @character %>
 
-<div>
-  <%= link_to "Edit this character", edit_character_path(@character) %> |
-  <%= link_to "Back to characters", characters_path %>
+      <h5>Abilities</h5>
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Score</th>
+            <td><%= @character.strength %></td>
+            <td><%= @character.dexterity %></td>
+            <td><%= @character.constitution %></td>
+            <td><%= @character.intelligence %></td>
+            <td><%= @character.wisdom %></td>
+            <td><%= @character.charisma %></td>
+          </tr>
+          <tr>
+            <th>Modifier</th>
+            <td><%= calculate_modifier(@character.strength) %></td>
+            <td><%= calculate_modifier(@character.dexterity) %></td>
+            <td><%= calculate_modifier(@character.constitution) %></td>
+            <td><%= calculate_modifier(@character.intelligence) %></td>
+            <td><%= calculate_modifier(@character.wisdom) %></td>
+            <td><%= calculate_modifier(@character.charisma) %></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <%= button_to "Destroy this character", @character, method: :delete %>
+      <!-- Description -->
+      <h5>Description</h5>
+      <p><%= simple_format(@character.description.presence) || "No description provided." %></p>
+
+      <!-- Abilities -->
+      <h5>Abilities</h5>
+      <p><%= simple_format(@character.abilities.presence) || "No abilities provided." %></p>
+    </div>
+  </div>
+
+  <!-- Back to Characters Button -->
+  <div class="d-flex justify-content-center">
+    <%= link_to characters_path, class: "btn btn-success btn-lg", aria: { label: "Back to Characters" } do %>
+      ↩️ Back to Characters
+    <% end %>
+  </div>
 </div>

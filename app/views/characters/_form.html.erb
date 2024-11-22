@@ -1,29 +1,63 @@
 <%= form_with(model: character) do |form| %>
   <% if character.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(character.errors.count, "error") %> prohibited this character from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"><%= pluralize(character.errors.count, "error") %> prohibited this character from being saved:</h4>
       <ul>
-        <% character.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% character.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.label :name, "Character Name", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Enter character name" %>
   </div>
 
   <div>
-    <%= form.label :level, style: "display: block" %>
-    <%= form.number_field :level %>
+    <%= form.label :level, "Character Level", class: "form-label" %>
+    <%= form.number_field :level, class: "form-control", placeholder: "Enter character level" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, "Description", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", placeholder: "Enter character description" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :strength, "Strength", class: "form-label" %>
+    <%= form.number_field :strength, class: "form-control", placeholder: "Enter strength score" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :dexterity, "Dexterity", class: "form-label" %>
+    <%= form.number_field :dexterity, class: "form-control", placeholder: "Enter dexterity score" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :constitution, "Constitution", class: "form-label" %>
+    <%= form.number_field :constitution, class: "form-control", placeholder: "Enter constitution score" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :intelligence, "Intelligence", class: "form-label" %>
+    <%= form.number_field :intelligence, class: "form-control", placeholder: "Enter intelligence score" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :wisdom, "Wisdom", class: "form-label" %>
+    <%= form.number_field :wisdom, class: "form-control", placeholder: "Enter wisdom score" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :charisma, "Charisma", class: "form-label" %>
+    <%= form.number_field :charisma, class: "form-control", placeholder: "Enter charisma score" %>
   </div>
 
   <div>
-    <%= form.label :abilities, style: "display: block" %>
-    <%= form.text_area :abilities %>
+    <%= form.label :abilities, "Abilities", class: "form-label" %>
+    <%= form.text_area :abilities, class: "form-control", placeholder: "Enter character abilities" %>
   </div>
 
   <div>
