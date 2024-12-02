@@ -1,8 +1,8 @@
 class CreateSpells < ActiveRecord::Migration[7.1]
   def change
     create_table :spells do |t|
-      t.string :name
-      t.string :level
+      t.string :name, null: false
+      t.string :level, null: false
       t.string :casting_time
       t.string :duration
       t.string :school
