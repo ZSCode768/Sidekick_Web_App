@@ -26,5 +26,16 @@ FactoryBot.define do
       abilities{ "Says Hello" }
     end
 
+    factory(:spell) do
+      name{ "fireball" }
+      level{ 3 }
+      casting_time{ "1 action" }
+      duration{ "instant" }
+      school{ "evocation" }
+      range{ "120 feet" }
+      components{ "V, S"}
+      description { "A bright streak flashes from your pointing finger..." }
+      association :character_class
+    end
 end
    

@@ -14,10 +14,17 @@ class CharactersTest < ApplicationSystemTestCase
     visit characters_url
     click_on "New character"
 
-    fill_in "Abilities", with: @character.abilities
-    fill_in "Level", with: @character.level
-    fill_in "Name", with: @character.name
-    fill_in "User", with: @character.user_id
+    fill_in "Name", with: "New Character"
+    fill_in "Level", with: 5
+    fill_in "Character Class", with: "Eldritch Vessel"
+    fill_in "Description", with: "Hello there"
+    fill_in "Strength", with: 10
+    fill_in "Dexterity", with: 10
+    fill_in "Constitution", with: 10
+    fill_in "Intelligence", with: 10
+    fill_in "Wisdom", with: 10
+    fill_in "Charisma", with: 10
+    fill_in "Abilities", with: "Special Skills"
     click_on "Create Character"
 
     assert_text "Character was successfully created"
@@ -28,10 +35,17 @@ class CharactersTest < ApplicationSystemTestCase
     visit character_url(@character)
     click_on "Edit this character", match: :first
 
-    fill_in "Abilities", with: @character.abilities
-    fill_in "Level", with: @character.level
-    fill_in "Name", with: @character.name
-    fill_in "User", with: @character.user_id
+    fill_in "Name", with: "Updated Character"
+    fill_in "Level", with: 6
+    fill_in "Character Class", with: "Eldritch Vessel"
+    fill_in "Description", with: "Updated description"
+    fill_in "Strength", with: 12
+    fill_in "Dexterity", with: 11
+    fill_in "Constitution", with: 13
+    fill_in "Intelligence", with: 14
+    fill_in "Wisdom", with: 12
+    fill_in "Charisma", with: 10
+    fill_in "Abilities", with: "Updated abilities"
     click_on "Update Character"
 
     assert_text "Character was successfully updated"
