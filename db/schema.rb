@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_02_230946) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_03_003945) do
   create_table "character_classes", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_02_230946) do
     t.integer "intelligence"
     t.integer "wisdom"
     t.integer "charisma"
+    t.integer "character_class_id"
+    t.index ["character_class_id"], name: "index_characters_on_character_class_id"
     t.index ["user_id"], name: "index_characters_on_user_id"
   end
 
@@ -61,6 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_02_230946) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "characters", "character_classes"
   add_foreign_key "characters", "users"
   add_foreign_key "spells", "character_classes"
 end

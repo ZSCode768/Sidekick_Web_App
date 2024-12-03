@@ -66,9 +66,9 @@
       <h5>Description</h5>
       <p><%= simple_format(@character.description.presence) || "No description provided." %></p>
 
-      <!-- Abilities -->
-      <h5>Abilities</h5>
-      <p><%= simple_format(@character.abilities.presence) || "No abilities provided." %></p>
+      <!-- Class -->
+      <h5>Class Abilities</h5>
+      <p><%= simple_format(@character.character_class&.description.presence) || "No abilities provided." %></p>
     </div>
   </div>
 

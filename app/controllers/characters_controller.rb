@@ -19,10 +19,12 @@ class CharactersController < ApplicationController
   # GET /characters/new
   def new
     @character = Character.new
+    @character_classes = CharacterClass.all
   end
 
   # GET /characters/1/edit
   def edit
+    @character_classes = CharacterClass.all
   end
 
   # POST /characters or /characters.json
@@ -86,6 +88,7 @@ class CharactersController < ApplicationController
       params.require(:character).permit(:name, :level, 
       :abilities, :description,
       :strength, :dexterity, :constitution,
-      :intelligence, :wisdom, :charisma)
+      :intelligence, :wisdom, :charisma,
+      :character_class_id)
     end
 end

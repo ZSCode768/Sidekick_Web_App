@@ -32,7 +32,10 @@ namespace :import do
                             capture = true
                         end
 
-                        description += "#{row_text}\n" if capture
+                        if capture
+                            formatted_text = row_text.split(/(?=\()/).join("\n\n")
+                            description += "#{formatted_text}\n"
+                        end
                     end
         
                     # Create or update the CharacterClass with the concatenated description
