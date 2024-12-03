@@ -12,11 +12,13 @@
           aria: { label: "Edit Character" } do %>
           ✏️
         <% end %>
-        <%= turbo_frame_tag "characters" do %>
-          <%= link_to "🗑️", character_path(@character), 
-                      data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this character?" }, 
-                      class: "btn btn-outline-danger btn-sm" %>
-        <% end %>            
+        <%= button_to character_path(@character), 
+          method: :delete,
+          data: { turbo_confirm: "Are you sure you want to delete this character?" }, 
+          class: "btn btn-outline-danger btn-sm",
+          aria: { label: "Delete Character" } do %>
+          🗑️
+        <% end %>           
       </div>
       </div>
     </div>

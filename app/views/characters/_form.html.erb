@@ -20,6 +20,15 @@
     <%= form.number_field :level, class: "form-control", placeholder: "Enter character level" %>
   </div>
 
+  <!-- Add dropdown for Character Class -->
+  <div class="mb-3">
+    <%= form.label :character_class_id, "Character Class", class: "form-label" %>
+    <%= form.select :character_class_id, 
+          options_from_collection_for_select(@character_classes, :id, :name, character.character_class_id), 
+          { prompt: "Select a class" }, 
+          class: "form-select" %>
+  </div>
+
   <div class="mb-3">
     <%= form.label :description, "Description", class: "form-label" %>
     <%= form.text_area :description, class: "form-control", placeholder: "Enter character description" %>
@@ -58,15 +67,6 @@
   <div>
     <%= form.label :abilities, "Abilities", class: "form-label" %>
     <%= form.text_area :abilities, class: "form-control", placeholder: "Enter character abilities" %>
-  </div>
-
-  <!-- Add dropdown for Character Class -->
-  <div class="mb-3">
-    <%= form.label :character_class_id, "Character Class", class: "form-label" %>
-    <%= form.select :character_class_id, 
-          options_from_collection_for_select(@character_classes, :id, :name, character.character_class_id), 
-          { prompt: "Select a class" }, 
-          class: "form-select" %>
   </div>
 
   <div>

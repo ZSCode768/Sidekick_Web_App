@@ -28,13 +28,15 @@ namespace :import do
                     sheet.each_row_streaming(offset: 2) do |row|
                         row_text = row.map { |cell| cell&.cell_value&.strip }.compact.join(" ")
 
-                        if !capture && row_text.include?("(1st)")
+                        if !capture && row_text.match?(/\(\d+(st|nd|rd|th)\)/)
                             capture = true
                         end
 
                         if capture
-                            formatted_text = row_text.split(/(?=\()/).join("\n\n")
-                            description += "#{formatted_text}\n"
+                            formatted_sections = row_text.split("\n\n").map(&:strip)
+                            formatted_sections.each do |section|
+                                description += "#{section}\n\n"
+                            end
                         end
                     end
         
