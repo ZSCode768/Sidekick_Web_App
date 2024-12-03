@@ -6,6 +6,18 @@ namespace :db do
         json_dir = Rails.root.join('app', 'assets', 'jsons')
         files = Dir.glob(json_dir.join('*.json'))
 
+        SCHOOL_MAP = {
+                    'A' => 'Abjuration',
+                    'C' => 'Conjuration',
+                    'D' => 'Divination',
+                    'E' => 'Enchantment',
+                    'V' => 'Evocation',
+                    'I' => 'Illusion',
+                    'N' => 'Necromancy',
+                    'P' => 'Psionic',
+                    'T' => 'Transmutation'
+                }.freeze
+
         files.each do |file_path|
             class_name = File.basename(file_path, '.json').split('_spells').first.titleize
             character_class = CharacterClass.find_by(name: class_name)
@@ -20,12 +32,22 @@ namespace :db do
             json_data = JSON.parse(File.read(file_path))
 
             json_data.each do |spell_data|
+                duration_data = spell_data.dig('duration', 0)
+
                 Spell.create!(
                     name: spell_data['name'],
                     level: spell_data['level'],
                     casting_time: spell_data.dig('time', 0, 'number').to_s + " " + spell_data.dig('time', 0, 'unit'),
-                    duration: spell_data.dig('duration', 0, 'type') || 'Instant',
-                    school: spell_data['school'],
+                    duration: if duration_data
+                                if duration_data['type'] == 'timed' && duration_data['duration']
+                                    "#{duration_data['duration']['amount']} #{duration_data['duration']['type']}"
+                                else
+                                    duration_data['type']
+                                end
+                            else
+                                'Instant'
+                            end,
+                    school: SCHOOL_MAP[spell_data['school']] || spell_data['school'],
                     range: if spell_data.dig('range', 'distance')
                         "#{spell_data.dig('range', 'distance', 'amount')} #{spell_data.dig('range', 'distance', 'type')}".strip
                     else

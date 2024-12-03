@@ -14,6 +14,8 @@ user = User.find_or_create_by(email: 'example@example.com') do |u|
   end
   
   # Create 50 characters for the user
+  character_classes = CharacterClass.all
+
   50.times do |i|
     user.characters.create!(
       name: "Character #{i + 1}",
@@ -25,6 +27,7 @@ user = User.find_or_create_by(email: 'example@example.com') do |u|
       intelligence: rand(1..18),
       wisdom: rand(1..18),
       charisma: rand(1..18),
-      abilities: "Abilities for Character #{i + 1}" # Customize as needed
+      abilities: "Abilities for Character #{i + 1}",
+      character_class: character_classes.sample #assign a random class
     )
   end  

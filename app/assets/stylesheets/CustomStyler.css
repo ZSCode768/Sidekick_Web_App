@@ -37,3 +37,10 @@ body {
     background-color: #555555; /* Slightly lighter on hover */
   }
   
+  .spell-name {
+    margin-left: 20px;
+  }
+
+  .spell {
+    margin-top: 5px;
+  }

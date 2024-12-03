@@ -1,7 +1,7 @@
 <div class="container my-4">
   <div class="card bg-dark text-light my-3">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h1><%= @character.name %></h1>
+      <h1><%= @character.name %> <%= "(#{@character.character_class.name})" %></h1>
       <div>
       <!-- Edit and Delete Links -->
       <div class="btn-group" role="group">
@@ -77,6 +77,63 @@
         <% end %>
       <% else %>
         <p>No abilities provided.</p>
+      <% end %>
+
+      <!-- Spells -->
+      <% spells = @character.character_class&.spells.where("level <= ?", 9).order(:level) || [] %>
+
+      <% if spells.any? %>
+        <% spells.group_by(&:level).each do |level, spells_by_level| %>
+          <% max_spell_level = case @character.level
+              when 1..2 then 1
+              when 3..4 then 2
+              when 5..6 then 3
+              when 7..8 then 4
+              when 9..10 then 5
+              when 11..12 then 6
+              when 13..14 then 7
+              when 15..16 then 8
+              else 9
+              end %>
+          <% if level.to_i <= max_spell_level %>
+            <div class="spell-level">
+              <!-- Level Dropdown -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#level-<%= level %>">
+                Level <%= level %> Spells
+              </button>
+              <hr />
+              <div id="level-<%= level %>" class="collapse">
+                <% spells_by_level.each do |spell| %>
+                  <!-- Spell Dropdown -->
+                  <div class="spell spell-name">
+                  
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#spell-<%= spell.id %>">
+                      <%= spell.name %>
+                    </button>
+                    
+                    <div id="spell-<%= spell.id %>" class="collapse">
+                      <p><strong>Level:</strong> <%= spell.level %></p>
+                      <p><strong>Casting Time:</strong> <%= spell.casting_time %></p>
+                      <p><strong>Duration:</strong> <%= spell.duration %></p>
+                      <p><strong>Range:</strong> <%= spell.range %></p>
+                      <p><strong>Components:</strong> <%= spell.components %></p>
+                      <p><strong>School:</strong> <%= spell.school %></p>
+                      <p><strong>Description:</strong></p>
+                      <p><%= simple_format(spell.description) %></p>
+                      <% if spell.at_higher_levels.present? %>
+                        <p><strong>At Higher Levels:</strong></p>
+                        <p><%= simple_format(spell.at_higher_levels) %></p>
+                      <% end %>
+                    </div>
+                  </div>
+                  <hr />
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p>No spells available.</p>
       <% end %>
     </div>
   </div>
