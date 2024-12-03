@@ -26,17 +26,19 @@ namespace :import do
         
                     # Process features starting from a specific row (e.g., after header rows)
                     sheet.each_row_streaming(offset: 2) do |row|
-                        row_text = row.map { |cell| cell&.cell_value&.strip }.compact.join(" ")
+                        row_text = row.map { |cell| sanitize_input(cell&.cell_value&.strip) }.compact.join(" ")
 
                         if !capture && row_text.match?(/\(\d+(st|nd|rd|th)\)/)
                             capture = true
                         end
 
                         if capture
-                            formatted_sections = row_text.split("\n\n").map(&:strip)
-                            formatted_sections.each do |section|
-                                description += "#{section}\n\n"
-                            end
+                            if row_text.match?(/\(\d+(st|nd|rd|th)\)/)
+                                description += "#{row_text.strip}\n"
+                            else
+                                # For description lines, add a blank line for separation
+                                description += "#{row_text.strip}\n\n"
+                            end 
                         end
                     end
         
@@ -55,6 +57,13 @@ namespace :import do
         end
         
         puts "Import completed successfully!"
+    end
+
+    def sanitize_input(text)
+        return "" unless text
+
+        sanitezed_text = ActionController::Base.helpers.strip_tags(text)
+        sanitezed_text.gsub(/\r?\n/, "\n")
     end
 end
   

@@ -69,8 +69,15 @@
       <p><%= simple_format(@character.description.presence) || "No description provided." %></p>
 
       <!-- Class -->
-      <h5>Class Abilities</h5>
-      <p><%= simple_format(@character.character_class&.description.presence) || "No abilities provided." %></p>
+      <h5>Class Features</h5>
+      <% features = @character.character_class&.features_by_level(@character.level) || [] %>
+      <% if features.any? %>
+        <% features.each do |feature| %>
+          <p><%= simple_format(feature) %></p>
+        <% end %>
+      <% else %>
+        <p>No abilities provided.</p>
+      <% end %>
     </div>
   </div>
 
